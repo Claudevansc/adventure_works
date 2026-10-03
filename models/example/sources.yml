@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    database: workspace # ou o nome do seu catálogo no Databricks
+    schema: adventure_works
+    tables:
+      # Da área Person
+      - name: person_person
+      - name: person_address
+      
+      # Da área Sales
+      - name: sales_customer
+      - name: sales_salesorderheader
+      - name: sales_salesorderdetail
+      - name: sales_salesterritory
+      
+      # Da área Production
+      - name: production_product
+      - name: production_productsubcategory
+      - name: production_productcategory
+      - name: production_productinventory
+      
+      # Da área Purchasing
+      - name: purchasing_vendor
+      - name: purchasing_purchaseorderheader
+      
+      # Da área HumanResources
+      - name: humanresources_employee
+      - name: humanresources_department
