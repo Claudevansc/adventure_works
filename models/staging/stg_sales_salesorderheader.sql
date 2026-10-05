@@ -10,6 +10,8 @@ select
     customerid as customer_id,
     salespersonid as sales_person_id,
     territoryid as territory_id,
+    billtoaddressid as bill_to_address_id,   -- << ADICIONADO
+    creditcardid as credit_card_id,           -- << ADICIONADO
     subtotal,
     taxamt as tax_amt,
     freight,

@@ -17,14 +17,28 @@ sources:
       
       # Da área Production
       - name: production_product
+        identifier: production_product
+
       - name: production_productsubcategory
+        identifier: production_productsubcategory
+
       - name: production_productcategory
+        identifier: production_productcategory
+
       - name: production_productinventory
+        identifier: production_productinventory
       
       # Da área Purchasing
       - name: purchasing_vendor
+        identifier: purchasing_vendor
       - name: purchasing_purchaseorderheader
+        identifier: purchasing_purchaseorderheader
+      - name: purchasing_purchaseorderdetail
+        identifier: purchasing_purchaseorderdetail
       
       # Da área HumanResources
       - name: humanresources_employee
+        identifier: humanresources_employee
+
       - name: humanresources_department
+        identifier: humanresources_department
