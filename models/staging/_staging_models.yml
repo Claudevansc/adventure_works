@@ -4,37 +4,37 @@ models:
   # =========================================================================
   # Área Person
   # =========================================================================
-  - name: stg_person
-    description: "Model de staging com dados cadastrais de pessoas e contactos."
+  - name: stg_adventure_works__person_person
+    description: "Modelo de staging com dados cadastrais de pessoas e contactos."
     columns:
-      - name: businessentityid
+      - name: person_id
         description: "ID único da pessoa (Chave Primária)."
         tests:
           - unique
           - not_null
 
-  - name: stg_address
+  - name: stg_adventure_works__person_address
     description: "Endereços cadastrados no sistema."
     columns:
-      - name: addressid
+      - name: address_id
         description: "ID único do endereço."
         tests:
           - unique
           - not_null
 
-  - name: stg_stateprovince
+  - name: stg_adventure_works__person_stateprovince
     description: "Estados e províncias."
     columns:
-      - name: stateprovinceid
+      - name: state_province_id
         description: "ID único do estado/província."
         tests:
           - unique
           - not_null
 
-  - name: stg_countryregion
+  - name: stg_adventure_works__person_countryregion
     description: "Países e regiões."
     columns:
-      - name: countryregioncode
+      - name: country_region_code
         description: "Código do país."
         tests:
           - unique
@@ -43,7 +43,7 @@ models:
   # =========================================================================
   # Área Sales
   # =========================================================================
-  - name: stg_customer
+  - name: stg_sales_customer
     description: "Dados dos clientes das vendas."
     columns:
       - name: customer_id
@@ -52,7 +52,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_salesorderheader
+  - name: stg_sales_salesorderheader
     description: "Cabeçalho dos pedidos de vendas (resumo das ordens de venda)."
     columns:
       - name: sales_order_id
@@ -61,7 +61,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_salesorderdetail
+  - name: stg_sales_salesorderdetail
     description: "Itens detalhados de cada pedido de venda."
     columns:
       - name: sales_order_detail_id
@@ -70,7 +70,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_salesterritory
+  - name: stg_sales_salesterritory
     description: "Territórios e regiões de vendas."
     columns:
       - name: territory_id
@@ -79,19 +79,28 @@ models:
           - unique
           - not_null
 
-  - name: stg_creditcard
+  - name: stg_adventure_works__sales_creditcard
     description: "Cartões de crédito cadastrados para pagamento."
     columns:
-      - name: creditcard_id
+      - name: credit_card_id
         description: "ID único do cartão de crédito."
         tests:
           - unique
           - not_null
 
-  - name: stg_salesorderheadersalesreason
+  - name: stg_adventure_works__sales_salesorderheadersalesreason
     description: "Tabela de associação entre o pedido e o motivo da venda."
+    columns:
+      - name: sales_order_id
+        description: "ID do pedido de venda."
+        tests:
+          - not_null
+      - name: sales_reason_id
+        description: "ID do motivo de venda."
+        tests:
+          - not_null
 
-  - name: stg_salesreason
+  - name: stg_adventure_works__sales_salesreason
     description: "Motivos das vendas (ex: Promotion, Price, etc.)."
     columns:
       - name: sales_reason_id
@@ -136,7 +145,7 @@ models:
   # =========================================================================
   # Área Purchasing
   # =========================================================================
-  - name: stg_vendor
+  - name: stg_purchasing_vendor
     description: "Cadastro de fornecedores."
     columns:
       - name: business_entity_id
