@@ -4,7 +4,7 @@ models:
   # =========================================================================
   # Área Person
   # =========================================================================
-  - name: stg_person_person
+  - name: stg_person
     description: "Model de staging com dados cadastrais de pessoas e contactos."
     columns:
       - name: businessentityid
@@ -13,7 +13,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_person_address
+  - name: stg_address
     description: "Endereços cadastrados no sistema."
     columns:
       - name: addressid
@@ -22,7 +22,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_person_stateprovince
+  - name: stg_stateprovince
     description: "Estados e províncias."
     columns:
       - name: stateprovinceid
@@ -31,7 +31,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_person_countryregion
+  - name: stg_countryregion
     description: "Países e regiões."
     columns:
       - name: countryregioncode
@@ -43,7 +43,7 @@ models:
   # =========================================================================
   # Área Sales
   # =========================================================================
-  - name: stg_sales_customer
+  - name: stg_customer
     description: "Dados dos clientes das vendas."
     columns:
       - name: customer_id
@@ -52,7 +52,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_sales_salesorderheader
+  - name: stg_salesorderheader
     description: "Cabeçalho dos pedidos de vendas (resumo das ordens de venda)."
     columns:
       - name: sales_order_id
@@ -61,7 +61,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_sales_salesorderdetail
+  - name: stg_salesorderdetail
     description: "Itens detalhados de cada pedido de venda."
     columns:
       - name: sales_order_detail_id
@@ -70,7 +70,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_sales_salesterritory
+  - name: stg_salesterritory
     description: "Territórios e regiões de vendas."
     columns:
       - name: territory_id
@@ -79,7 +79,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_sales_creditcard
+  - name: stg_creditcard
     description: "Cartões de crédito cadastrados para pagamento."
     columns:
       - name: creditcard_id
@@ -88,10 +88,10 @@ models:
           - unique
           - not_null
 
-  - name: stg_sales_salesorderheadersalesreason
+  - name: stg_salesorderheadersalesreason
     description: "Tabela de associação entre o pedido e o motivo da venda."
 
-  - name: stg_sales_salesreason
+  - name: stg_salesreason
     description: "Motivos das vendas (ex: Promotion, Price, etc.)."
     columns:
       - name: sales_reason_id
@@ -103,7 +103,7 @@ models:
   # =========================================================================
   # Área Production
   # =========================================================================
-  - name: stg_production_product
+  - name: stg_product
     description: "Cadastro principal de produtos."
     columns:
       - name: product_id
@@ -112,7 +112,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_production_productsubcategory
+  - name: stg_productsubcategory
     description: "Subcategorias de produtos."
     columns:
       - name: product_subcategory_id
@@ -121,7 +121,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_production_productcategory
+  - name: stg_productcategory
     description: "Categorias de produtos."
     columns:
       - name: product_category_id
@@ -130,13 +130,13 @@ models:
           - unique
           - not_null
 
-  - name: stg_production_productinventory
+  - name: stg_productinventory
     description: "Controlo de stock e inventário dos produtos."
 
   # =========================================================================
   # Área Purchasing
   # =========================================================================
-  - name: stg_purchasing_vendor
+  - name: stg_vendor
     description: "Cadastro de fornecedores."
     columns:
       - name: business_entity_id
@@ -145,7 +145,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_purchasing_purchaseorderheader
+  - name: stg_purchaseorderheader
     description: "Cabeçalho das ordens de compra aos fornecedores."
     columns:
       - name: purchase_order_id
@@ -154,13 +154,13 @@ models:
           - unique
           - not_null
 
-  - name: stg_purchasing_purchaseorderdetail
+  - name: stg_purchaseorderdetail
     description: "Detalhes dos itens das ordens de compra."
 
   # =========================================================================
   # Área Human Resources
   # =========================================================================
-  - name: stg_humanresources_employee
+  - name: stg_employee
     description: "Cadastro de funcionários."
     columns:
       - name: business_entity_id
@@ -169,7 +169,7 @@ models:
           - unique
           - not_null
 
-  - name: stg_humanresources_department
+  - name: stg_department
     description: "Departamentos da empresa."
     columns:
       - name: department_id
