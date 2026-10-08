@@ -1,0 +1,179 @@
+version: 2
+
+models:
+  # =========================================================================
+  # Área Person
+  # =========================================================================
+  - name: stg_person_person
+    description: "Model de staging com dados cadastrais de pessoas e contactos."
+    columns:
+      - name: businessentityid
+        description: "ID único da pessoa (Chave Primária)."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_person_address
+    description: "Endereços cadastrados no sistema."
+    columns:
+      - name: addressid
+        description: "ID único do endereço."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_person_stateprovince
+    description: "Estados e províncias."
+    columns:
+      - name: stateprovinceid
+        description: "ID único do estado/província."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_person_countryregion
+    description: "Países e regiões."
+    columns:
+      - name: countryregioncode
+        description: "Código do país."
+        tests:
+          - unique
+          - not_null
+
+  # =========================================================================
+  # Área Sales
+  # =========================================================================
+  - name: stg_sales_customer
+    description: "Dados dos clientes das vendas."
+    columns:
+      - name: customer_id
+        description: "ID único do cliente."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sales_salesorderheader
+    description: "Cabeçalho dos pedidos de vendas (resumo das ordens de venda)."
+    columns:
+      - name: sales_order_id
+        description: "ID único do pedido de venda."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sales_salesorderdetail
+    description: "Itens detalhados de cada pedido de venda."
+    columns:
+      - name: sales_order_detail_id
+        description: "ID único da linha do pedido."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sales_salesterritory
+    description: "Territórios e regiões de vendas."
+    columns:
+      - name: territory_id
+        description: "ID do território de vendas."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sales_creditcard
+    description: "Cartões de crédito cadastrados para pagamento."
+    columns:
+      - name: creditcard_id
+        description: "ID único do cartão de crédito."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sales_salesorderheadersalesreason
+    description: "Tabela de associação entre o pedido e o motivo da venda."
+
+  - name: stg_sales_salesreason
+    description: "Motivos das vendas (ex: Promotion, Price, etc.)."
+    columns:
+      - name: sales_reason_id
+        description: "ID do motivo de venda."
+        tests:
+          - unique
+          - not_null
+
+  # =========================================================================
+  # Área Production
+  # =========================================================================
+  - name: stg_production_product
+    description: "Cadastro principal de produtos."
+    columns:
+      - name: product_id
+        description: "ID único do produto."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_production_productsubcategory
+    description: "Subcategorias de produtos."
+    columns:
+      - name: product_subcategory_id
+        description: "ID da subcategoria."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_production_productcategory
+    description: "Categorias de produtos."
+    columns:
+      - name: product_category_id
+        description: "ID da categoria."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_production_productinventory
+    description: "Controlo de stock e inventário dos produtos."
+
+  # =========================================================================
+  # Área Purchasing
+  # =========================================================================
+  - name: stg_purchasing_vendor
+    description: "Cadastro de fornecedores."
+    columns:
+      - name: business_entity_id
+        description: "ID do fornecedor."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_purchasing_purchaseorderheader
+    description: "Cabeçalho das ordens de compra aos fornecedores."
+    columns:
+      - name: purchase_order_id
+        description: "ID único da ordem de compra."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_purchasing_purchaseorderdetail
+    description: "Detalhes dos itens das ordens de compra."
+
+  # =========================================================================
+  # Área Human Resources
+  # =========================================================================
+  - name: stg_humanresources_employee
+    description: "Cadastro de funcionários."
+    columns:
+      - name: business_entity_id
+        description: "ID do funcionário."
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_humanresources_department
+    description: "Departamentos da empresa."
+    columns:
+      - name: department_id
+        description: "ID do departamento."
+        tests:
+          - unique
+          - not_null
