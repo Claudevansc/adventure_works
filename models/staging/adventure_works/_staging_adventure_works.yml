@@ -9,13 +9,16 @@ models:
     columns:
       - name: person_id
         description: "ID único da pessoa (Chave Primária)."
-        tests:
+        tests:          
           - unique
           - not_null
 
   - name: stg_adventure_works__person_address
     description: "Endereços cadastrados no sistema."
     columns:
+      # Observação: Indicium
+      # Teste genérico de relacionamento: Valida a consistência das chaves estrangeiras entre tabelas transacionais 
+      # e de entidades, garantindo que a morada referenciada está registada na tabela de origem.
       - name: address_id
         description: "ID único do endereço."
         tests:
@@ -25,6 +28,9 @@ models:
   - name: stg_adventure_works__person_stateprovince
     description: "Estados e províncias."
     columns:
+      # Observação: Indicium
+      # Teste genérico de relacionamento: Garante a integridade referencial validando se todos os IDs de 
+      # estado/província presentes nesta tabela existem efetivamente na tabela de dimensões correspondente.
       - name: state_province_id
         description: "ID único do estado/província."
         tests:
@@ -61,6 +67,19 @@ models:
           - unique
           - not_null
 
+      # Observação: Indicium
+      # Testes genéricos: Relacionamentos
+      # Chave estrangeira: Valida a integridade referencial entre os pedidos e os clientes registados.
+      - name: customer_id  
+        description: "ID do cliente associado à venda."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                field: customer_id
+                to: ref('stg_adventure_works__sales_customer')  
+
+
   - name: stg_sales_salesorderdetail
     description: "Itens detalhados de cada pedido de venda."
     columns:
@@ -73,6 +92,9 @@ models:
   - name: stg_sales_salesterritory
     description: "Territórios e regiões de vendas."
     columns:
+      # Observação: Indicium
+      # Teste genérico de relacionamento: Assegura que não existem órfãos de territórios nas vendas/clientes, 
+      # confirmando que cada ID mapeado possui correspondência na tabela de territórios de vendas.
       - name: territory_id
         description: "ID do território de vendas."
         tests:
@@ -87,6 +109,15 @@ models:
         tests:
           - unique
           - not_null
+
+      # Observação: Indicium
+      # Teste genérico Tipo de cartões: valida os tipos de cartões aceites mapeados na base de dados (Adventure Works)
+      - name: card_type
+        description: "Tipo de cartão."
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['ColonialVoice', 'Vista', 'Distinguish', 'SuperiorCard']
 
   - name: stg_adventure_works__sales_salesorderheadersalesreason
     description: "Tabela de associação entre o pedido e o motivo da venda."
