@@ -4,4 +4,4 @@ select
     expiration_year,
     card_type
 from {{ ref('stg_adventure_works__sales_creditcard') }}
-where expiration_year < 2020
+where expiration_year < 2005  

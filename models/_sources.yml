@@ -12,18 +12,35 @@ sources:
       - name: person_countryregion
       
       # Da área Sales
+      # Observação: Indicium
+      # Teste de Fonte:
       - name: sales_customer
+        columns:
+          - name: customerid
+            tests:
+              - unique
+              - not_null
+              
 
-      # NOTA DE CONFIGURAÇÃO (Fase de Desenvolvimento/Treino): 
+      # Observação: Indicium 
       # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
       # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
       # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
       # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
       #Tabela transacional de vendas diárias: deve ser monitorizada pois novos pedidos 
       # são gerados continuamente e atrasos afetam os relatórios do negócio.
+
+      # Observação: Indicium
+      # Teste de Fonte:
       - name: sales_salesorderheader
         description: "Tabela transacional crítica. Requer monitorização contínua de frescura de dados devido ao volume diário de vendas."
         identifier: sales_salesorderheader
+        columns:
+          - name: salesorderid
+            tests:
+              - unique
+              - not_null
+              
         config:  
           freshness:
             warn_after:
@@ -34,7 +51,7 @@ sources:
               period: day
 
 
-      # NOTA DE CONFIGURAÇÃO (Fase de Desenvolvimento/Treino): 
+      # Observação: Indicium 
       # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
       # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
       # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
@@ -69,7 +86,7 @@ sources:
       - name: production_productcategory
         identifier: production_productcategory
 
-      # NOTA DE CONFIGURAÇÃO (Fase de Desenvolvimento/Treino): 
+      # Observação: Indicium 
       # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
       # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
       # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
@@ -94,7 +111,7 @@ sources:
         identifier: purchasing_vendor
 
 
-      # NOTA DE CONFIGURAÇÃO (Fase de Desenvolvimento/Treino): 
+      # Observação: Indicium 
       # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
       # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
       # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
