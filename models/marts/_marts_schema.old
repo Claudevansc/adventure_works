@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: dim_customers  
+    description: "Tabela de dimensão de clientes na camada de marts."
+    columns:
+      - name: customer_id
+        description: "Chave primária da dimensão de clientes."
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_sales 
+    description: "Tabela de factos de vendas na camada de marts."
+    columns:
+      - name: sales_order_id  
+        description: "Chave primária ou identificador único da venda."
+        tests:
+          - unique
+          - not_null

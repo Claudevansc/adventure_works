@@ -7,7 +7,7 @@ with source as (
 renamed as (
 
     select
-        -- Chaves (IDs / Tabela de Ligação)
+        -- Chaves (IDs)
         cast(salesorderid as int) as sales_order_id,
         cast(salesreasonid as int) as sales_reason_id,
 

@@ -12,26 +12,25 @@ sources:
       - name: person_countryregion
       
       # Da área Sales
+
       # Observação: Indicium
-      # Teste de Fonte:
+      # Teste de Fonte: sales_customer
+      # Garante a integridade da chave primária na camada de origem (RAW).
+      # - unique: evita explosão de linhas (row explosion) nos joins downstream.
+      # - not_null: assegura que todos os registos possuem identificador válido.
       - name: sales_customer
         columns:
           - name: customerid
             tests:
               - unique
               - not_null
-              
-
-      # Observação: Indicium 
-      # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
-      # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
-      # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
-      # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
-      #Tabela transacional de vendas diárias: deve ser monitorizada pois novos pedidos 
-      # são gerados continuamente e atrasos afetam os relatórios do negócio.
+ 
 
       # Observação: Indicium
-      # Teste de Fonte:
+      # Teste de Fonte: sales_salesorderheader
+      # Tabela transacional crítica de pedidos de venda.
+      # - Valida a chave primária (salesorderid) com unique e not_null para assegurar a integridade das transações.
+      # - Configuração de freshness estendida para suportar dados históricos estáticos e evitar o erro 'StaleSource'.
       - name: sales_salesorderheader
         description: "Tabela transacional crítica. Requer monitorização contínua de frescura de dados devido ao volume diário de vendas."
         identifier: sales_salesorderheader
@@ -40,7 +39,14 @@ sources:
             tests:
               - unique
               - not_null
-              
+
+        # Observação: Indicium 
+        # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
+        # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
+        # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
+        # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
+        # Tabela transacional de vendas diárias: deve ser monitorizada pois novos pedidos 
+        # são gerados continuamente e atrasos afetam os relatórios do negócio.      
         config:  
           freshness:
             warn_after:
