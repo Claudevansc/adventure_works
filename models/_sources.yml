@@ -2,14 +2,18 @@ version: 2
 
 sources:
   - name: adventure_works
-    database: workspace # ou o nome do seu catálogo no Databricks
+    database: raw 
     schema: adventure_works
     tables:
       # Da área Person
       - name: person_person
+        identifier: person_person
       - name: person_address
+        identifier: person_address
       - name: person_stateprovince
+        identifier: person_stateprovince
       - name: person_countryregion
+        identifier: person_countryregion
       
       # Da área Sales
 
@@ -19,6 +23,7 @@ sources:
       # - unique: evita explosão de linhas (row explosion) nos joins downstream.
       # - not_null: assegura que todos os registos possuem identificador válido.
       - name: sales_customer
+        identifier: sales_customer
         columns:
           - name: customerid
             tests:
@@ -78,9 +83,13 @@ sources:
               
 
       - name: sales_salesterritory
+        identifier: sales_salesterritory
       - name: sales_creditcard
+        identifier: sales_creditcard
       - name: sales_salesorderheadersalesreason
+        identifier: sales_salesorderheadersalesreason
       - name: sales_salesreason
+        identifier: sales_salesreason
       
       # Da área Production
       - name: production_product
@@ -145,3 +154,12 @@ sources:
 
       - name: humanresources_department
         identifier: humanresources_department
+
+  # - name: stripe
+  #   database: workspace
+  #   schema: raw
+  #   tables:
+  #     - name: payment
+  #       identifier: raw.stripe.payment
+  #       description: "Tabela de pagamentos do Stripe."
+
