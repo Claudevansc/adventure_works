@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: "Tabela de factos de vendas na camada de marts."
+    columns:
+      - name: sales_order_detail_id
+        description: "Chave primária ao nível de item de detalhe da venda."
+        tests:
+          - unique
+          - not_null
+      - name: sales_order_id
+        description: "Identificador do cabeçalho da ordem de venda."
+        tests:
+          - not_null

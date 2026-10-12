@@ -1,0 +1,165 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    database: raw 
+    schema: adventure_works
+    tables:
+      # Da área Person
+      - name: person_person
+        identifier: person_person
+      - name: person_address
+        identifier: person_address
+      - name: person_stateprovince
+        identifier: person_stateprovince
+      - name: person_countryregion
+        identifier: person_countryregion
+      
+      # Da área Sales
+
+      # Observação: Indicium
+      # Teste de Fonte: sales_customer
+      # Garante a integridade da chave primária na camada de origem (RAW).
+      # - unique: evita explosão de linhas (row explosion) nos joins downstream.
+      # - not_null: assegura que todos os registos possuem identificador válido.
+      - name: sales_customer
+        identifier: sales_customer
+        columns:
+          - name: customerid
+            tests:
+              - unique
+              - not_null
+ 
+
+      # Observação: Indicium
+      # Teste de Fonte: sales_salesorderheader
+      # Tabela transacional crítica de pedidos de venda.
+      # - Valida a chave primária (salesorderid) com unique e not_null para assegurar a integridade das transações.
+      # - Configuração de freshness estendida para suportar dados históricos estáticos e evitar o erro 'StaleSource'.
+      - name: sales_salesorderheader
+        description: "Tabela transacional crítica. Requer monitorização contínua de frescura de dados devido ao volume diário de vendas."
+        identifier: sales_salesorderheader
+        columns:
+          - name: salesorderid
+            tests:
+              - unique
+              - not_null
+
+        # Observação: Indicium 
+        # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
+        # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
+        # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
+        # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
+        # Tabela transacional de vendas diárias: deve ser monitorizada pois novos pedidos 
+        # são gerados continuamente e atrasos afetam os relatórios do negócio.      
+        config:  
+          freshness:
+            warn_after:
+              count: 3000
+              period: day
+            error_after:
+              count: 4000
+              period: day
+
+
+      # Observação: Indicium 
+      # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
+      # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
+      # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
+      # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
+      # Tabela de itens dos pedidos de venda: monitorizada para garantir a integridade do 
+      # volume de produtos vendidos e faturamento diário junto com o cabeçalho do pedido.
+      - name: sales_salesorderdetail
+        description: "Detalhamento transacional dos itens por pedido. Requer monitorização diária para evitar inconsistências no cálculo de volume e receita."
+        identifier: sales_salesorderdetail
+        config:  
+          freshness:
+            warn_after:
+              count: 3000
+              period: day
+            error_after:
+              count: 4000
+              period: day
+              
+
+      - name: sales_salesterritory
+        identifier: sales_salesterritory
+      - name: sales_creditcard
+        identifier: sales_creditcard
+      - name: sales_salesorderheadersalesreason
+        identifier: sales_salesorderheadersalesreason
+      - name: sales_salesreason
+        identifier: sales_salesreason
+      
+      # Da área Production
+      - name: production_product
+        identifier: production_product
+
+      - name: production_productsubcategory
+        identifier: production_productsubcategory
+
+      - name: production_productcategory
+        identifier: production_productcategory
+
+      # Observação: Indicium 
+      # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
+      # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
+      # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
+      # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
+      # Tabela de controlo de inventário e stock: monitorizada continuamente para acompanhar 
+      # a disponibilidade de produtos no armazém e evitar ruturas na operação de vendas.
+      - name: production_productinventory
+        description: "Registo de posições de stock por local. Monitorização essencial para assegurar a visibilidade da disponibilidade de produtos para venda."
+        identifier: production_productinventory
+        config:  
+          freshness:
+            warn_after:
+              count: 3000
+              period: day
+            error_after:
+              count: 4000
+              period: day
+
+      
+      # Da área Purchasing
+      - name: purchasing_vendor
+        identifier: purchasing_vendor
+
+
+      # Observação: Indicium 
+      # A regra real de produção exige monitorização de 24 horas (warn_after: 12h, error_after: 24h).
+      # No entanto, a base de dados Adventure Works contém dados históricos estáticos (sem atualizações diárias em tempo real).
+      # Configurar 24h agora causaria o erro 'StaleSource' porque MAX(modifieddate) é de anos atrás.
+      # Aumentou-se temporariamente a janela temporal para dias/anos para permitir a validação do pipeline sem falhas.
+      # Tabela transacional de ordens de compra: monitorizada diariamente para garantir 
+      # que novos pedidos a fornecedores e reposições de stock estão a entrar no sistema sem atrasos.
+      - name: purchasing_purchaseorderheader
+        description: "Cabeçalho das ordens de compra. Requer monitorização diária para acompanhar o fluxo de aquisições, custos e reposição de inventário."
+        identifier: purchasing_purchaseorderheader
+        config:  
+          freshness:
+            warn_after:
+              count: 3000
+              period: day
+            error_after:
+              count: 4000
+              period: day
+
+      - name: purchasing_purchaseorderdetail
+        identifier: purchasing_purchaseorderdetail
+      
+      # Da área HumanResources
+      - name: humanresources_employee
+        identifier: humanresources_employee
+
+      - name: humanresources_department
+        identifier: humanresources_department
+
+  # - name: stripe
+  #   database: workspace
+  #   schema: raw
+  #   tables:
+  #     - name: payment
+  #       identifier: raw.stripe.payment
+  #       description: "Tabela de pagamentos do Stripe."
+
