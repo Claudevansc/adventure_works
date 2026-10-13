@@ -11,7 +11,7 @@ with order_header as (
         shipdate as ship_date,
         status as order_status,
         onlineorderflag as online_order_flag
-    from {{ source('adventure_works', 'sales_salesorderheader') }}
+    from {{ ref('stg_sales_salesorderheader') }}
 ),
 
 order_detail as (
@@ -23,7 +23,7 @@ credit_card as (
     select
         creditcardid as credit_card_id,
         cardtype as card_type
-    from {{ source('adventure_works', 'sales_creditcard') }}
+    from {{ ref('stg_sales_creditcard') }}
 ),
 
 -- 2. Endereço, Estado e País (Cidade, Estado, País)
@@ -32,7 +32,7 @@ address as (
         addressid as address_id,
         city,
         stateprovinceid as state_province_id
-    from {{ source('adventure_works', 'person_address') }}
+    from {{ ref('stg_person_address') }}
 ),
 
 state_province as (
@@ -40,14 +40,14 @@ state_province as (
         stateprovinceid as state_province_id,
         name as state_name,
         countryregioncode as country_region_code
-    from {{ source('adventure_works', 'person_stateprovince') }}
+    from {{ ref('stg_person_stateprovince') }}
 ),
 
 country_region as (
     select
         countryregioncode as country_region_code,
         name as country_name
-    from {{ source('adventure_works', 'person_countryregion') }}
+    from {{ ref('stg_person_countryregion') }}
 ),
 
 -- 3. Motivo de Venda (Bridge + Reason)
@@ -55,14 +55,14 @@ sales_reason_bridge as (
     select
         salesorderid as sales_order_id,
         salesreasonid as sales_reason_id
-    from {{ source('adventure_works', 'sales_salesorderheadersalesreason') }}
+    from {{ ref('stg_sales_salesorderheadersalesreason') }}
 ),
 
 sales_reason as (
     select
         salesreasonid as sales_reason_id,
         name as sales_reason_name
-    from {{ source('adventure_works', 'sales_salesreason') }}
+    from {{ ref('stg_sales_salesreason') }}
 ),
 
 -- Consolidação dos Motivos de Venda por Pedido (evita duplicar linhas na Fato se houver mais de 1 motivo)

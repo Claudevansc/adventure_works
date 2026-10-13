@@ -1,5 +1,5 @@
 with person as (
-    select * from {{ ref('stg_person') }}
+    select * from {{ ref('stg_person_person') }}
 )
 
 select
